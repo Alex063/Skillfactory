@@ -1,0 +1,86 @@
+// 1. Создайте перечисление для ошибок. Добавьте в него 3 кейса:
+//    ошибка 400,
+//    ошибка 404,
+//    ошибка 500.
+//    Далее создайте переменную, которая будет хранить в себе какую-либо ошибку (400 или 404 или 500). И при помощи do-catch сделайте обработку   ошибок перечисления. Для каждой ошибки должно быть выведено сообщение в консоль.
+// 2. Теперь добавьте проверку переменных в генерирующую функцию и обрабатывайте её!
+
+// Создадим перечесление для ошибок
+enum ServerErrors: Error {
+    case isError400 // неправильный, некорректный запрос
+    case isError404 // не найдено
+    case isError500 // внутренняя ошибка сервера
+}
+
+// Переменная хранящая ошибку
+var isError = 400
+
+// Обработка ошибок
+do {
+    try errorFunction()
+} catch ServerErrors.isError400 {
+    print("Неправильный, некорректный запрос")
+} catch ServerErrors.isError404 {
+    print("Не найдено")
+} catch ServerErrors.isError500 {
+    print("Внутренняя ошибка сервера")
+}
+
+// генерирующая функция
+func errorFunction() throws {
+    if isError == 400 {throw ServerErrors.isError400}
+    if isError == 404 {throw ServerErrors.isError404}
+    if isError == 500 {throw ServerErrors.isError500}
+}
+
+print("\n*******************************\n")
+
+// 3. Напишите функцию, которая будет принимать на вход два разных типа и проверять: если типы входных значений одинаковые, то вывести сообщение        “Yes”, в противном случае — “No”.
+func typeComparison <T, E> (a: T, b: E){
+// Можно сравнить типы переменных через type(of: )
+//    if type(of: a) == type(of: b){
+//        print("Yes")
+//    }else{
+//        print("No")
+//    }
+
+// или сравнить сами типы без самих значений
+    if T.self == E.self {
+        print("Yes")
+    }else{
+        print("No")
+    }
+}
+typeComparison(a: 5, b: "a")
+
+print("\n*******************************\n")
+
+// 4. Реализуйте то же самое, но если тип входных значений различается, выбросите исключение. Если тип одинаковый — тоже выбросите исключение, но оно   уже будет говорить о том, что типы одинаковые. Не бойтесь этого. Ошибки — это не всегда про плохой результат.
+enum ErrorsType: Error {
+    case notEqualTypes // Типы не равны
+    case equalTypes // Типы равны
+}
+
+func typeComparisonTwo <T, E> (a: T, b: E) throws {
+    if T.self == E.self {
+        throw ErrorsType.equalTypes
+    }else{
+        throw ErrorsType.notEqualTypes
+    }
+}
+
+do {
+    try typeComparisonTwo(a: 5, b: "a")
+} catch ErrorsType.equalTypes {
+    print("Yes")
+} catch ErrorsType.notEqualTypes {
+    print("No")
+}
+
+print("\n*******************************\n")
+
+// 5. Напишите функцию, которая принимает на вход два любых значения и сравнивает их при помощи оператора равенства ==.
+func addition <T: Numeric>(a: T, b: T){
+    a == b
+}
+addition(a: 5, b: 10.5)
