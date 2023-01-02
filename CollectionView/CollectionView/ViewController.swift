@@ -62,10 +62,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         if collectionView == collectionViewTwo {
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellTwo", for: indexPath) as? Cell {
+            if let smileCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellTwo", for: indexPath) as? Cell {
                 let smileImageName = arraySmile[indexPath.row]
-                cell.setSmileImage(tempName: smileImageName)
-                return cell
+                smileCell.setSmileImage(tempName: smileImageName)
+                return smileCell
             }
         }
         
