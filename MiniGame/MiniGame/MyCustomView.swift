@@ -38,5 +38,10 @@ class MyCustomView: UIView {
         addSubview(workingView)
     }
     
+    func increaseCircleSize() {
+        frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width + 20, height: frame.height + 20)
+        workingView.layer.cornerRadius += 10
+        workingView.backgroundColor = .systemIndigo
+    }
      
 }
