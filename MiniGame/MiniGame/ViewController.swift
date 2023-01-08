@@ -13,21 +13,33 @@ class ViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        view1.removeFromSuperview()
   
         let guide = view.safeAreaLayoutGuide
         let heightView = Int(guide.layoutFrame.size.height - 70)
         let widthView = Int(guide.layoutFrame.size.width - 70)
 
         for _ in 1...7 {
-            var addSubviewY = Int.random(in: 70..<heightView)
-            var addSubviewX = Int.random(in: 70..<widthView)
-            view.addSubview(MyCustomView(frame: CGRect (x: addSubviewX ,y: addSubviewY, width: 50, height: 50)))
+            var nextWhile = true
+            while nextWhile {
+                let addSubviewY = Int.random(in: 70..<heightView)
+                let addSubviewX = Int.random(in: 70..<widthView)
+                var nextView = true
+                view.subviews.forEach { addSubView in // проверяем пересекается ли новая вьюха с уже установленными вьюхами
+                    guard MyCustomView(frame: CGRect (x: addSubviewX ,y: addSubviewY, width: 50, height: 50)).intersects(addSubView) else { return }
+                    nextView = false 
+                }
+                if nextView { // если новая виюха не пересикается со старами, то установим её
+                    view.addSubview(MyCustomView(frame: CGRect (x: addSubviewX ,y: addSubviewY, width: 50, height: 50))) // Установим вьюхи
+                    nextWhile = false
+                }
+            }
         }
         
+        view1.removeFromSuperview()
+        
         view.subviews.forEach { mySubView in
-            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didPan))
-            mySubView.addGestureRecognizer(panGestureRecognizer)
+            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didPan)) // Создадим жест
+            mySubView.addGestureRecognizer(panGestureRecognizer) // Прикрутим созданный жест к вьюхе
         }
         
     }
